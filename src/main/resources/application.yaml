@@ -5,6 +5,8 @@ spring:
   application:
     name: bff
 
-# URL padrão dos serviços externos (pode ser sobrescrita por perfil)
 agendador-tarefas:
   url: http://localhost:8081
+
+usuario:
+  url: http://localhost:8080
