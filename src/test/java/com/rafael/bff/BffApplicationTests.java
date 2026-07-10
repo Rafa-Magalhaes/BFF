@@ -7,11 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-@SpringBootTest(properties = {
-		"usuario.service.url=http://localhost:8080",
-		"notificacao.service.url=http://localhost:8080",
-		"tarefa.service.url=http://localhost:8080"
-})
+@SpringBootTest
 class BffApplicationTests {
 
 	@MockBean
