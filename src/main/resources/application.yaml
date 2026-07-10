@@ -5,8 +5,16 @@ spring:
   application:
     name: bff
 
-agendador-tarefas:
-  url: http://localhost:8081
-
 usuario:
-  url: http://localhost:8080
+  service:
+    url: http://localhost:8080
+
+notificacao:
+  service:
+    url: http://localhost:8083
+
+agendador:
+  service:
+    url: http://localhost:8081
+
+springdoc.show-actuator: true
