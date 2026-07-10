@@ -11,7 +11,7 @@ import java.util.List;
 
 @FeignClient(
         name = "agendador-service",
-        url = "${agendador.service.url}",
+        url = "${agendador.service.url:http://localhost:8081}",
         configuration = ServiceTokenFeignConfig.class   // ← usa Service Token sempre
 )
 public interface TarefaClient {

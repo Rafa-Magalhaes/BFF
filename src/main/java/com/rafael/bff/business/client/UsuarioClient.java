@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @FeignClient(
         name = "usuario-service",
-        url = "${usuario.service.url}",
+        url = "${usuario.service.url:http://localhost:8080}",
         configuration = ServiceTokenFeignConfig.class
 )
 public interface UsuarioClient {
