@@ -1,4 +1,4 @@
-package com.rafael.bff.infrastructure.client.DTOTESTE;
+package com.rafael.bff.infrastructure.clientDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -6,7 +6,7 @@ import com.rafael.bff.infrastructure.client.AgendadorClient;
 import com.rafael.bff.infrastructure.client.UsuarioClient;
 import com.rafael.bff.infrastructure.clientDTO.*;
 import com.rafael.bff.api.dto.FrontBffAgendamentoRequestDTO;
-import com.rafael.bff.infrastructure.client.DTOTESTE.BffAgendadorStatusUpdateDTO;
+import com.rafael.bff.infrastructure.clientDTO.BffAgendadorStatusUpdateDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,14 +19,14 @@ import java.util.List;
 @Slf4j
 public class TarefaService {
 
-    private final AgendadorClient tarefaClient;
+    private final AgendadorClient agendadorClient;
     private final UsuarioClient usuarioClient;
     private final NotificacaoClient notificacaoClient;
 
     public void processarTarefasPendentes() {
         log.info("=== Iniciando processamento de tarefas pendentes ===");
 
-        List<AgendadorBffMailResponseDTO> tarefasPendentes = tarefaClient.buscarTarefasPendentes();
+        List<AgendadorBffMailResponseDTO> tarefasPendentes = agendadorClient.buscarTarefasPendentes();
 
         if (tarefasPendentes == null || tarefasPendentes.isEmpty()) {
             log.info("Nenhuma tarefa pendente encontrada.");
@@ -76,16 +76,16 @@ public class TarefaService {
         }
     }
 
-    private void atualizarStatus(String tarefaId, String novoStatus) {
+    private void atualizarStatus(Long id, String novoStatus) {
         try {
             BffAgendadorStatusUpdateDTO statusUpdate = BffAgendadorStatusUpdateDTO.builder()
                     .status(novoStatus)
                     .build();
 
-            tarefaClient.alterarStatus(tarefaId, statusUpdate);
+            agendadorClient.alterarStatus(id, statusUpdate);
         } catch (Exception e) {
-            log.error("Falha ao atualizar status da tarefa ID: {} para status: {}", tarefaId, novoStatus, e);
-            throw e;
+
+            log.error("Falha ao atualizar status da tarefa ID: {} para status: {}", id, novoStatus, e);
         }
     }
 
@@ -110,7 +110,7 @@ public class TarefaService {
 
         log.info(">>> [BFF] Repassando carga útil para a API Agendador...");
 
-        AgendadorBffAgendamentoResponseDTO tarefaCriada = tarefaClient.criarTarefa(envioAgendador);
+        AgendadorBffAgendamentoResponseDTO tarefaCriada = agendadorClient.criarTarefa(envioAgendador);
 
         log.info(">>> [BFF] Sucesso! Tarefa gerada no banco NoSQL. ID: {} | Status: {}", tarefaCriada.getId(), tarefaCriada.getStatus());
 

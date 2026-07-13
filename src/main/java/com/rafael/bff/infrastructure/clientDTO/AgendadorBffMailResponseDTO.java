@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AgendadorBffMailResponseDTO {
 
-    private String id;
+    private Long id;
     private Long usuarioId;
     private String titulo;
     private String descricao;
