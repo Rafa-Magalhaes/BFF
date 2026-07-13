@@ -3,7 +3,7 @@ package com.rafael.bff.infrastructure.client;
 import com.rafael.bff.infrastructure.clientDTO.AgendadorBffAgendamentoResponseDTO;
 import com.rafael.bff.infrastructure.clientDTO.BffAgendadorAgendamentoRequestDTO;
 import com.rafael.bff.infrastructure.clientDTO.AgendadorBffMailResponseDTO;
-import com.rafael.bff.infrastructure.client.DTOTESTE.BffAgendadorStatusUpdateDTO;
+import com.rafael.bff.infrastructure.clientDTO.BffAgendadorStatusUpdateDTO;
 import com.rafael.bff.infrastructure.config.ServiceTokenFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +21,7 @@ public interface AgendadorClient {
     List<AgendadorBffMailResponseDTO> buscarTarefasPendentes();
 
     @PatchMapping("/internal/tarefas/{id}/status")
-    AgendadorBffMailResponseDTO alterarStatus(@PathVariable("id") String id,
-                                              @RequestBody BffAgendadorStatusUpdateDTO statusUpdate);
+    void alterarStatus(@PathVariable("id") Long id, @RequestBody BffAgendadorStatusUpdateDTO statusUpdate);
 
     @PostMapping("/internal/tarefas")
     AgendadorBffAgendamentoResponseDTO criarTarefa(@RequestBody BffAgendadorAgendamentoRequestDTO request);
