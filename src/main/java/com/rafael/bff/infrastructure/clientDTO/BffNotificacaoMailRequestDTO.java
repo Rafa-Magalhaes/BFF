@@ -1,4 +1,4 @@
-package com.rafael.bff.business.dto.notificacao;
+package com.rafael.bff.infrastructure.clientDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NotificacaoRequestDTO {
+public class BffNotificacaoMailRequestDTO {
 
-    private String emailDestinatario;
-    private String nomeDestinatario;
+    private String email;
+    private String nome;
     private String tituloTarefa;
     private String descricaoTarefa;
     private LocalDateTime dataHoraAgendada;

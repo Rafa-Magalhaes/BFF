@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication
-@EnableFeignClients(basePackages = "com.rafael.bff.business.client")
+@EnableFeignClients
 public class BffApplication {
 
 	public static void main(String[] args) {

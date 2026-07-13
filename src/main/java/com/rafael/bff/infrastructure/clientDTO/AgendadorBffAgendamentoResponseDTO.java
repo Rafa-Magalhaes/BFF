@@ -1,4 +1,4 @@
-package com.rafael.bff.business.dto.tarefa;
+package com.rafael.bff.infrastructure.clientDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TarefaPendenteResponseDTO {
+public class AgendadorBffAgendamentoResponseDTO {
 
     private String id;
     private Long usuarioId;
@@ -20,9 +20,4 @@ public class TarefaPendenteResponseDTO {
     private LocalDateTime dataHoraAgendada;
     private LocalDateTime dataCriacao;
     private String status;
-
-    // Campos enriquecidos pelo BFF
-    private String emailUsuario;
-    private String nomeUsuario;
-
 }

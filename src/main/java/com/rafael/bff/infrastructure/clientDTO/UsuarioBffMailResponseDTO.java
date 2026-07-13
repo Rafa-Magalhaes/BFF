@@ -1,4 +1,4 @@
-package com.rafael.bff.business.dto.tarefa;
+package com.rafael.bff.infrastructure.clientDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TarefaStatusUpdateRequestDTO {
+public class UsuarioBffMailResponseDTO {
 
-    private String status;
-
+    private String email;
+    private String nome;
 }

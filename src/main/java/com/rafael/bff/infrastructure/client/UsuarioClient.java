@@ -1,7 +1,9 @@
-package com.rafael.bff.business.client;
+package com.rafael.bff.infrastructure.client;
 
-import com.rafael.bff.business.dto.request.LoginRequestDTO;
-import com.rafael.bff.business.dto.usuario.UsuarioResponseDTO;
+import com.rafael.bff.infrastructure.clientDTO.UsuarioBffAgendamentoResponseDTO;
+import com.rafael.bff.infrastructure.clientDTO.BffUsuarioLoginRequestDTO;
+import com.rafael.bff.infrastructure.clientDTO.UsuarioBffLoginResponseDTO;
+import com.rafael.bff.infrastructure.clientDTO.UsuarioBffMailResponseDTO;
 import com.rafael.bff.infrastructure.config.ServiceTokenFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +22,11 @@ import org.springframework.validation.annotation.Validated;
 public interface UsuarioClient {
 
     @PostMapping("/usuarios/login")
-    String fazerLogin(@RequestBody LoginRequestDTO request);
+    UsuarioBffLoginResponseDTO fazerLogin(@RequestBody BffUsuarioLoginRequestDTO request);
 
     @GetMapping("/usuarios/por-email")
-    UsuarioResponseDTO buscarUsuarioPorEmail(@RequestParam("email") String email);
+    UsuarioBffAgendamentoResponseDTO buscarUsuarioPorEmail(@RequestParam("email") String email);
 
-    @GetMapping("/usuarios/internal/{id}")
-    UsuarioResponseDTO buscarUsuarioPorId(@PathVariable("id") Long id);
+    @GetMapping("/usuarios/internal/{usuarioId}")
+    UsuarioBffMailResponseDTO buscarUsuarioPorId(@PathVariable("usuarioId") Long usuarioId);
 }
