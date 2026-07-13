@@ -1,4 +1,4 @@
-package com.rafael.bff.business.dto.tarefa;
+package com.rafael.bff.infrastructure.clientDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +11,14 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TarefaEnvioAgendadorRequestDTO {
+public class AgendadorBffMailResponseDTO {
 
+    private String id;
     private Long usuarioId;
     private String titulo;
     private String descricao;
     private LocalDateTime dataHoraAgendada;
+    private LocalDateTime dataCriacao;
+    private String status;
+
 }

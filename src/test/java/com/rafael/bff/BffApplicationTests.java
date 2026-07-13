@@ -1,22 +1,22 @@
 package com.rafael.bff;
 
-import com.rafael.bff.business.client.NotificacaoClient;
-import com.rafael.bff.business.client.TarefaClient;
-import com.rafael.bff.business.client.UsuarioClient;
+import com.rafael.bff.infrastructure.client.NotificacaoClient;
+import com.rafael.bff.infrastructure.client.AgendadorClient;
+import com.rafael.bff.infrastructure.client.UsuarioClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @SpringBootTest
 class BffApplicationTests {
 
-	@MockBean
-	private TarefaClient tarefaClient;
+	@MockitoBean
+	private AgendadorClient tarefaClient;
 
-	@MockBean
+	@MockitoBean
 	private UsuarioClient usuarioClient;
 
-	@MockBean
+	@MockitoBean
 	private NotificacaoClient notificacaoClient;
 
 	@Test

@@ -1,4 +1,4 @@
-package com.rafael.bff.business.dto.response;
+package com.rafael.bff.infrastructure.clientDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenResponseDTO {
-    private String token;
-    private String tipo; // Ex: "Bearer"
+public class UsuarioBffAgendamentoResponseDTO {
+
+    private Long id;
 }

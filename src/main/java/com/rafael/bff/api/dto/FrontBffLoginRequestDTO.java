@@ -1,4 +1,4 @@
-package com.rafael.bff.business.dto.request;
+package com.rafael.bff.api.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequestDTO {
+public class FrontBffLoginRequestDTO {
 
         @NotBlank(message = "O e-mail é obrigatório.")
         @Email(message = "Formato de e-mail inválido.")

@@ -39,8 +39,3 @@ out/
 ### Arquivos Sensíveis ###
 # Perfis de desenvolvimento (nunca subir)
 application-dev.yml
-application-dev.yaml
-
-# Arquivos de ambiente
-.env
-.env.*
