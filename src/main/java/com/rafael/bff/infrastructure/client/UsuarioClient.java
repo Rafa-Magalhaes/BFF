@@ -1,9 +1,6 @@
 package com.rafael.bff.infrastructure.client;
 
-import com.rafael.bff.infrastructure.clientDTO.UsuarioBffAgendamentoResponseDTO;
-import com.rafael.bff.infrastructure.clientDTO.BffUsuarioLoginRequestDTO;
-import com.rafael.bff.infrastructure.clientDTO.UsuarioBffLoginResponseDTO;
-import com.rafael.bff.infrastructure.clientDTO.UsuarioBffMailResponseDTO;
+import com.rafael.bff.infrastructure.clientDTO.*;
 import com.rafael.bff.infrastructure.config.ServiceTokenFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,4 +26,11 @@ public interface UsuarioClient {
 
     @GetMapping("/usuarios/internal/{usuarioId}")
     UsuarioBffMailResponseDTO buscarUsuarioPorId(@PathVariable("usuarioId") Long usuarioId);
+
+    @GetMapping("/usuarios/internal/perfil/{email}")
+    UsuarioBffPerfilResponseDTO buscarPerfil(@PathVariable("email") String email);
+
+    // ====================== BUSCAR P/ DELETAR AGENDAMENTO  ======================
+    @GetMapping("/usuarios/internal/id/{email}")
+    Long buscarIdPorEmail(@PathVariable("email") String email);
 }

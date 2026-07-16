@@ -25,4 +25,9 @@ public interface AgendadorClient {
 
     @PostMapping("/internal/tarefas")
     AgendadorBffAgendamentoResponseDTO criarTarefa(@RequestBody BffAgendadorAgendamentoRequestDTO request);
+
+    // ====================== DELETAR AGENDAMENTO  ======================
+    @DeleteMapping("/internal/tarefas/{tarefaId}")
+    void deletarTarefa(@PathVariable("tarefaId") Long tarefaId, @RequestParam("usuarioId") Long usuarioId);
+
 }
