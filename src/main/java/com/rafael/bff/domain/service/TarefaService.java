@@ -23,6 +23,7 @@ public class TarefaService {
     private final UsuarioClient usuarioClient;
     private final NotificacaoClient notificacaoClient;
 
+    // ====================== SCHEDULER: VERIFICAR PENDÊNCIAS ======================
     public void processarTarefasPendentes() {
         log.info("=== Iniciando processamento de tarefas pendentes ===");
 
@@ -40,6 +41,7 @@ public class TarefaService {
         log.info("=== Finalizado processamento de tarefas pendentes ===");
     }
 
+    // ====================== SCHEDULER: ENRIQUECER NOTIFICAÇÃO ======================
     private void processarTarefaIndividual(AgendadorBffMailResponseDTO tarefa) {
         try {
             UsuarioBffMailResponseDTO usuario = usuarioClient.buscarUsuarioPorId(tarefa.getUsuarioId());
@@ -57,6 +59,7 @@ public class TarefaService {
         }
     }
 
+    // ====================== SCHEDULER: CONFECCIONAR E-MAIL ======================
     private BffNotificacaoMailRequestDTO montarNotificacaoRequest(AgendadorBffMailResponseDTO tarefa, UsuarioBffMailResponseDTO usuario) {
         return BffNotificacaoMailRequestDTO.builder()
                 .email(usuario.getEmail())
@@ -67,6 +70,7 @@ public class TarefaService {
                 .build();
     }
 
+    // ====================== SCHEDULER: DISPARAR E-MAIL ======================
     private void enviarNotificacao(BffNotificacaoMailRequestDTO request) {
         try {
             notificacaoClient.enviarNotificacaoTarefa(request);
@@ -76,6 +80,22 @@ public class TarefaService {
         }
     }
 
+    // ====================== DELETAR AGENDAMENTO ======================
+    public void deletarTarefa(Long tarefaId, String email) {
+        Long usuarioId = usuarioClient.buscarIdPorEmail(email);
+        agendadorClient.deletarTarefa(tarefaId, usuarioId);
+    }
+
+
+
+
+
+
+
+
+
+
+    // ====================== ALTERAR STATUS DE AGENDAMENTO  ======================
     private void atualizarStatus(Long id, String novoStatus) {
         try {
             BffAgendadorStatusUpdateDTO statusUpdate = BffAgendadorStatusUpdateDTO.builder()
@@ -89,6 +109,7 @@ public class TarefaService {
         }
     }
 
+    // ====================== CRIAR AGENDAMENTO  ======================
     public BffFrontAgendamentoResponseDTO criarTarefa(FrontBffAgendamentoRequestDTO request) {
 
         String emailUsuario = SecurityContextHolder.getContext()
@@ -121,4 +142,8 @@ public class TarefaService {
                 .status(tarefaCriada.getStatus())
                 .build();
     }
+
+
+
+
 }

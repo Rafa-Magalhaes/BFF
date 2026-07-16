@@ -7,7 +7,7 @@ spring:
 
 usuario:
   service:
-    url: http://localhost:8080
+    url: http://localhost:8084
 
 notificacao:
   service:
