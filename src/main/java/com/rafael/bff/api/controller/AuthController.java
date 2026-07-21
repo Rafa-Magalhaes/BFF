@@ -8,7 +8,6 @@ import com.rafael.bff.infrastructure.clientDTO.UsuarioBffLoginResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +23,7 @@ public class AuthController {
 
     private final UsuarioClient UsuarioClient;
 
+    // ==================== LOGIN ====================
     @PostMapping("/login")
     @Operation(summary = "Realiza o login", description = "Retorna o Token JWT.")
     public ResponseEntity<BffFrontLoginResponseDTO> login(@Valid @RequestBody FrontBffLoginRequestDTO request) {

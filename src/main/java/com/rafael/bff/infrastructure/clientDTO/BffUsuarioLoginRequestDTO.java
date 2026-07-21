@@ -2,9 +2,8 @@ package com.rafael.bff.infrastructure.clientDTO;
 
 import lombok.*;
 
+@Data
 @Builder
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BffUsuarioLoginRequestDTO {

@@ -1,18 +1,12 @@
 package com.rafael.bff.infrastructure.clientDTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnderecoDTO {
-
-    private Long id;
-
+public class BffUsuarioAddenderecoRequestDTO {
     private String rua;
     private String numero;
     private String cep;
