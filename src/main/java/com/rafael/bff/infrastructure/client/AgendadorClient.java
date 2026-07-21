@@ -30,4 +30,8 @@ public interface AgendadorClient {
     @DeleteMapping("/internal/tarefas/{tarefaId}")
     void deletarTarefa(@PathVariable("tarefaId") Long tarefaId, @RequestParam("usuarioId") Long usuarioId);
 
+    // ==================== DELETAR CADASTRO - TAREFA ====================
+    @DeleteMapping("/internal/tarefas/perfil/{usuarioId}")
+    void deletarTarefasPorUsuarioId(@PathVariable("usuarioId") Long usuarioId);
+
 }

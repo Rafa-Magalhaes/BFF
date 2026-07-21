@@ -7,7 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,8 +28,11 @@ public class TarefaController {
 
     // ==================== DELETAR AGENDAMENTO====================
     @DeleteMapping("/{tarefaId}")
-    public ResponseEntity<Void> deletarTarefa(@PathVariable("tarefaId") Long tarefaId) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    public ResponseEntity<Void> deletarTarefa(
+            @PathVariable("tarefaId") Long tarefaId,
+            JwtAuthenticationToken token) {
+
+        String email = token.getToken().getSubject();
         tarefaService.deletarTarefa(tarefaId, email);
         return ResponseEntity.noContent().build();
     }
