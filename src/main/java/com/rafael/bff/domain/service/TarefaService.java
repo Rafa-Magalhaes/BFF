@@ -41,21 +41,39 @@ public class TarefaService {
         log.info("=== Finalizado processamento de tarefas pendentes ===");
     }
 
-    // ====================== SCHEDULER: ENRIQUECER NOTIFICAÇÃO ======================
+    // ====================== SCHEDULER: ENRIQUECER E PROCESSAR NOTIFICAÇÃO ======================
     private void processarTarefaIndividual(AgendadorBffMailResponseDTO tarefa) {
+        String statusFinal = "FALHOU"; // Por segurança, assume falha se algo der errado no meio do caminho
+
         try {
+            // 1. Enriquece os dados buscando o usuário na API Usuario
             UsuarioBffMailResponseDTO usuario = usuarioClient.buscarUsuarioPorId(tarefa.getUsuarioId());
 
+            // 2. Confecciona o pacote que vai para a API Notificacao
             BffNotificacaoMailRequestDTO notificacaoRequest = montarNotificacaoRequest(tarefa, usuario);
 
-            enviarNotificacao(notificacaoRequest);
-            atualizarStatus(tarefa.getId(), "ENVIADO");
+            // 3. Dispara a notificação de forma síncrona e CAPTURA a resposta real ("ENVIADO" ou "FALHOU")
+            NotificacaoBffMailResponseDTO response = notificacaoClient.enviarNotificacaoTarefa(notificacaoRequest);
 
-            log.info("Notificação enviada com sucesso. Tarefa ID: {}", tarefa.getId());
+            // 4. O status vem diretamente da resposta da API de Notificação!
+            statusFinal = response.getStatus();
+
+            log.info("Notificação processada para a tarefa ID: {}. Status retornado: {}", tarefa.getId(), statusFinal);
+
+        } catch (feign.FeignException e) {
+            // Se a API de Notificação devolveu HTTP 500 (Erro no Gmail)
+            statusFinal = "FALHOU";
+            log.error("API de Notificação reportou erro HTTP {} para a tarefa ID: {}", e.status(), tarefa.getId());
 
         } catch (Exception e) {
-            log.error("Falha ao processar tarefa ID: {}. Erro: {}", tarefa.getId(), e.getMessage(), e);
-            atualizarStatus(tarefa.getId(), "FALHOU");
+            // Se a API Usuario caiu, a Notificação caiu, ou deu Timeout
+            statusFinal = "FALHOU";
+            log.error("Falha sistêmica ao processar tarefa ID: {}. Erro: {}", tarefa.getId(), e.getMessage(), e);
+
+        } finally {
+            // 5. O bloco finally garante que OBRIGATÓRIAMENTE o status será atualizado no Agendador,
+            // seja ele "ENVIADO" ou "FALHOU", sem risco de deixar a tarefa travada no limbo.
+            atualizarStatus(tarefa.getId(), statusFinal);
         }
     }
 
@@ -70,30 +88,11 @@ public class TarefaService {
                 .build();
     }
 
-    // ====================== SCHEDULER: DISPARAR E-MAIL ======================
-    private void enviarNotificacao(BffNotificacaoMailRequestDTO request) {
-        try {
-            notificacaoClient.enviarNotificacaoTarefa(request);
-        } catch (Exception e) {
-            log.error("Falha ao chamar API de Notificação");
-            throw new RuntimeException("Erro ao enviar notificação", e);
-        }
-    }
-
     // ====================== DELETAR AGENDAMENTO ======================
     public void deletarTarefa(Long tarefaId, String email) {
         Long usuarioId = usuarioClient.buscarIdPorEmail(email);
         agendadorClient.deletarTarefa(tarefaId, usuarioId);
     }
-
-
-
-
-
-
-
-
-
 
     // ====================== ALTERAR STATUS DE AGENDAMENTO  ======================
     private void atualizarStatus(Long id, String novoStatus) {
@@ -108,6 +107,11 @@ public class TarefaService {
             log.error("Falha ao atualizar status da tarefa ID: {} para status: {}", id, novoStatus, e);
         }
     }
+
+
+
+
+
 
     // ====================== CRIAR AGENDAMENTO  ======================
     public BffFrontAgendamentoResponseDTO criarTarefa(FrontBffAgendamentoRequestDTO request) {
