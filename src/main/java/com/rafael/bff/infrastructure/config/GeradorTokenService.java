@@ -26,7 +26,7 @@ public class GeradorTokenService {
 
         return Jwts.builder()
                 .setSubject("bff-servico")
-                .claim("type", "SERVICE")
+                .claim("tokentype", "SERVICE")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hora
                 .signWith(key, SignatureAlgorithm.HS256)

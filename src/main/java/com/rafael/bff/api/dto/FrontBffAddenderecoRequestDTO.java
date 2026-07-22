@@ -13,7 +13,10 @@ public class FrontBffAddenderecoRequestDTO {
     private String numero;
     @NotBlank(message = "O CEP é obrigatório")
     private String cep;
+    @NotBlank(message = "O bairro é obrigatório")
     private String bairro;
+    @NotBlank(message = "A cidade é obrigatória")
     private String cidade;
+    @NotBlank(message = "O estado é obrigatório")
     private String estado;
 }
