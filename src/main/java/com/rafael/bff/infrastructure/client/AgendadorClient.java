@@ -13,18 +13,17 @@ import java.util.List;
 @FeignClient(
         name = "agendador-service",
         url = "${agendador.service.url:http://localhost:8081}",
-        configuration = ServiceTokenFeignConfig.class   // ← usa Service Token sempre
+        configuration = ServiceTokenFeignConfig.class
 )
 public interface AgendadorClient {
 
-    @GetMapping("/internal/tarefas/pendentes")
-    List<AgendadorBffMailResponseDTO> buscarTarefasPendentes();
-
+    // ====================== ALTERAR STATUS DE AGENDAMENTO ======================
     @PatchMapping("/internal/tarefas/{id}/status")
     void alterarStatus(@PathVariable("id") Long id, @RequestBody BffAgendadorStatusUpdateDTO statusUpdate);
 
-    @PostMapping("/internal/tarefas")
-    AgendadorBffAgendamentoResponseDTO criarTarefa(@RequestBody BffAgendadorAgendamentoRequestDTO request);
+    // ====================== SCHEDULER: VERIFICAR PENDÊNCIAS ======================
+    @GetMapping("/internal/tarefas/pendentes")
+    List<AgendadorBffMailResponseDTO> buscarTarefasPendentes();
 
     // ====================== DELETAR AGENDAMENTO  ======================
     @DeleteMapping("/internal/tarefas/{tarefaId}")
@@ -34,4 +33,6 @@ public interface AgendadorClient {
     @DeleteMapping("/internal/tarefas/perfil/{usuarioId}")
     void deletarTarefasPorUsuarioId(@PathVariable("usuarioId") Long usuarioId);
 
+    @PostMapping("/internal/tarefas")
+    AgendadorBffAgendamentoResponseDTO criarTarefa(@RequestBody BffAgendadorAgendamentoRequestDTO request);
 }

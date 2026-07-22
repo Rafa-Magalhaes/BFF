@@ -1,6 +1,7 @@
 package com.rafael.bff.infrastructure.client;
 
 import com.rafael.bff.infrastructure.clientDTO.BffNotificacaoMailRequestDTO;
+import com.rafael.bff.infrastructure.clientDTO.NotificacaoBffMailResponseDTO;
 import com.rafael.bff.infrastructure.config.ServiceTokenFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,5 +15,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface NotificacaoClient {
 
     @PostMapping("/emails/enviar-tarefa")
-    void enviarNotificacaoTarefa(@RequestBody BffNotificacaoMailRequestDTO request);
+    NotificacaoBffMailResponseDTO enviarNotificacaoTarefa(@RequestBody BffNotificacaoMailRequestDTO request);
 }
