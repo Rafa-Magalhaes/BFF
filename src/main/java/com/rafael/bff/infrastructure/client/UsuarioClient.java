@@ -7,9 +7,7 @@ import com.rafael.bff.infrastructure.clientDTO.*;
 import com.rafael.bff.infrastructure.config.ServiceTokenFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.annotation.Validated;
 
-@Validated
 @FeignClient(
         name = "usuario-service",
         url = "${usuario.service.url:http://localhost:8080}",
@@ -17,23 +15,17 @@ import org.springframework.validation.annotation.Validated;
 )
 public interface UsuarioClient {
 
-    @PostMapping("/usuarios/login")
-    UsuarioBffLoginResponseDTO fazerLogin(@RequestBody BffUsuarioLoginRequestDTO request);
-
-    @GetMapping("/usuarios/por-email")
-    UsuarioBffAgendamentoResponseDTO buscarUsuarioPorEmail(@RequestParam("email") String email);
-
-    @GetMapping("/usuarios/internal/{usuarioId}")
-    UsuarioBffMailResponseDTO buscarUsuarioPorId(@PathVariable("usuarioId") Long usuarioId);
-
-
-    // ====================== BUSCAR ======================
-    @GetMapping("/usuarios/internal/perfil/{email}")
-    UsuarioBffPerfilResponseDTO buscarPerfil(@PathVariable("email") String email);
+    // ====================== BUSCAR USUARIO P/ CRIACAO AGENDAMENTO  ======================
+    @GetMapping("/usuarios/{email}")
+    UsuarioBffAgendamentoResponseDTO buscarUserPorEmail(@RequestParam("email") String email);
 
     // ====================== BUSCAR P/ DELETAR AGENDAMENTO  ======================
     @GetMapping("/usuarios/internal/id/{email}")
     Long buscarIdPorEmail(@PathVariable("email") String email);
+
+    // ====================== BUSCAR ======================
+    @GetMapping("/usuarios/internal/perfil/{email}")
+    UsuarioBffPerfilResponseDTO buscarPerfil(@PathVariable("email") String email);
 
     // ====================== DELETAR USUÁRIO  ======================
     @DeleteMapping("/usuarios/internal/definitivo/{email}")
@@ -85,4 +77,13 @@ public interface UsuarioClient {
             @PathVariable("email") String email,
             @RequestBody BffUsuarioAddtelefoneRequestDTO request);
 
+
+
+
+    // ==================== MÉTODOS REPETIDOS OU SEM UTILIDADE (PRECISAM DE VALIDACAO) ====================
+    @PostMapping("/usuarios/login")
+    UsuarioBffLoginResponseDTO fazerLogin(@RequestBody BffUsuarioLoginRequestDTO request);
+
+    @GetMapping("/usuarios/internal/{usuarioId}")
+    UsuarioBffMailResponseDTO buscarUsuarioPorId(@PathVariable("usuarioId") Long usuarioId);
 }

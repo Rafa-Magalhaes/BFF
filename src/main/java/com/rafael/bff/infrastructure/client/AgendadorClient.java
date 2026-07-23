@@ -17,22 +17,33 @@ import java.util.List;
 )
 public interface AgendadorClient {
 
-    // ====================== ALTERAR STATUS DE AGENDAMENTO ======================
-    @PatchMapping("/internal/tarefas/{id}/status")
-    void alterarStatus(@PathVariable("id") Long id, @RequestBody BffAgendadorStatusUpdateDTO statusUpdate);
+    // ====================== BUSCAR TAREFA POR ID ======================
+    @GetMapping("/internal/tarefas/{tarefaId}")
+    AgendadorBffMailResponseDTO buscarTarefaPorId(
+            @PathVariable("tarefaId") String tarefaId,
+            @RequestParam("usuarioId") Long usuarioId);
 
-    // ====================== SCHEDULER: VERIFICAR PENDÊNCIAS ======================
-    @GetMapping("/internal/tarefas/pendentes")
-    List<AgendadorBffMailResponseDTO> buscarTarefasPendentes();
+    // ====================== LISTAR TODAS AS TAREFAS ======================
+    @GetMapping("/internal/tarefas")
+    List<AgendadorBffMailResponseDTO> listarTarefas(@RequestParam("usuarioId") Long usuarioId);
+
+    // ====================== CRIAR AGENDAMENTO ======================
+    @PostMapping("/internal/tarefas")
+    AgendadorBffAgendamentoResponseDTO criarTarefa(@RequestBody BffAgendadorAgendamentoRequestDTO request);
 
     // ====================== DELETAR AGENDAMENTO  ======================
     @DeleteMapping("/internal/tarefas/{tarefaId}")
-    void deletarTarefa(@PathVariable("tarefaId") Long tarefaId, @RequestParam("usuarioId") Long usuarioId);
+    void deletarTarefa(@PathVariable("tarefaId") String tarefaId, @RequestParam("usuarioId") Long usuarioId);
+
+    // ====================== ALTERAR STATUS DE AGENDAMENTO ======================
+    @PatchMapping("/internal/tarefas/{id}/status")
+    void alterarStatus(@PathVariable("id") String id, @RequestBody BffAgendadorStatusUpdateDTO statusUpdate);
+
+    // ====================== SCHEDULER: VERIFICAR PENDÊNCIAS ======================
+    @GetMapping("/internal/tarefas/status/pendentes")
+    List<AgendadorBffMailResponseDTO> buscarTarefasPendentes();
 
     // ==================== DELETAR CADASTRO - TAREFA ====================
     @DeleteMapping("/internal/tarefas/perfil/{usuarioId}")
     void deletarTarefasPorUsuarioId(@PathVariable("usuarioId") Long usuarioId);
-
-    @PostMapping("/internal/tarefas")
-    AgendadorBffAgendamentoResponseDTO criarTarefa(@RequestBody BffAgendadorAgendamentoRequestDTO request);
 }
