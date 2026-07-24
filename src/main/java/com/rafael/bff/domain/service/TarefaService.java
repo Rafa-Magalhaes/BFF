@@ -9,12 +9,7 @@ import com.rafael.bff.api.dto.FrontBffAgendamentoRequestDTO;
 import com.rafael.bff.infrastructure.clientDTO.BffAgendadorStatusUpdateDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import java.util.List;
 
 @Service

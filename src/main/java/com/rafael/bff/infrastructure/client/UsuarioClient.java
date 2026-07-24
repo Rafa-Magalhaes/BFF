@@ -1,13 +1,12 @@
 package com.rafael.bff.infrastructure.client;
 
-import com.rafael.bff.api.dto.FrontBffEnderecoupdateRequestDTO;
-import com.rafael.bff.api.dto.FrontBffSetpassRequestDTO;
-import com.rafael.bff.api.dto.FrontBffTelefoneupdateRequestDTO;
 import com.rafael.bff.infrastructure.clientDTO.*;
 import com.rafael.bff.infrastructure.config.ServiceTokenFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Validated
 @FeignClient(
         name = "usuario-service",
         url = "${usuario.service.url:http://localhost:8080}",
@@ -33,25 +32,25 @@ public interface UsuarioClient {
 
     // ==================== ATUALIZAR NOME ====================
     @PatchMapping("/usuarios/internal/{email}/nome")
-    void atualizarNome(@PathVariable("email") String email, @RequestBody String novoNome);
+    void atualizarNome(@PathVariable("email") String email, @RequestBody BffUsuarioSetnameRequestDTO request);
 
     // ==================== ATUALIZAR SENHA ====================
     @PatchMapping("/usuarios/internal/{email}/senha")
-    void atualizarSenha(@PathVariable("email") String email, @RequestBody FrontBffSetpassRequestDTO request);
+    void atualizarSenha(@PathVariable("email") String email, @RequestBody BffUsuarioSetpassRequestDTO request);
 
     // ==================== ATUALIZAR ENDEREÇO ====================
     @PutMapping("/usuarios/internal/{email}/enderecos/{enderecoId}")
     void atualizarEndereco(
             @PathVariable("email") String email,
             @PathVariable("enderecoId") Long enderecoId,
-            @RequestBody FrontBffEnderecoupdateRequestDTO request);
+            @RequestBody BffUsuarioEnderecoUpdateRequestDTO request);
 
     // ==================== ATUALIZAR TELEFONE ====================
     @PutMapping("/usuarios/internal/{email}/telefones/{telefoneId}")
     void atualizarTelefone(
             @PathVariable("email") String email,
             @PathVariable("telefoneId") Long telefoneId,
-            @RequestBody FrontBffTelefoneupdateRequestDTO request);
+            @RequestBody BffUsuarioTelefoneUpdateRequestDTO request);
 
     // ==================== DELETAR ENDEREÇO ====================
     @DeleteMapping("/usuarios/internal/definitivo/{email}/enderecos/{enderecoId}")
@@ -77,13 +76,11 @@ public interface UsuarioClient {
             @PathVariable("email") String email,
             @RequestBody BffUsuarioAddtelefoneRequestDTO request);
 
-
-
-
-    // ==================== MÉTODOS REPETIDOS OU SEM UTILIDADE (PRECISAM DE VALIDACAO) ====================
+    // ==================== LOGIN M2M ====================
     @PostMapping("/usuarios/login")
     UsuarioBffLoginResponseDTO fazerLogin(@RequestBody BffUsuarioLoginRequestDTO request);
 
+    // ==================== BUSCAR USUARIO POR ID ====================
     @GetMapping("/usuarios/internal/{usuarioId}")
     UsuarioBffMailResponseDTO buscarUsuarioPorId(@PathVariable("usuarioId") Long usuarioId);
 }

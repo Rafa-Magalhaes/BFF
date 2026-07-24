@@ -3,6 +3,7 @@ package com.rafael.bff.domain.service;
 import com.rafael.bff.api.dto.*;
 import com.rafael.bff.infrastructure.client.AgendadorClient;
 import com.rafael.bff.infrastructure.clientDTO.*;
+import com.rafael.bff.infrastructure.mapper.PerfilConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.rafael.bff.infrastructure.client.UsuarioClient;
@@ -13,9 +14,10 @@ public class PerfilService {
 
     private final UsuarioClient usuarioClient;
     private final AgendadorClient agendadorClient;
+    private final PerfilConverter perfilConverter;
 
+    // ==================== BUSCAR PERFIL ====================
     public BffFrontPerfilResponseDTO buscarPerfil(String email) {
-
         UsuarioBffPerfilResponseDTO usuario = usuarioClient.buscarPerfil(email);
 
         return BffFrontPerfilResponseDTO.builder()
@@ -27,7 +29,7 @@ public class PerfilService {
                 .build();
     }
 
-    // ==================== DELETAR CADASTRO - TAREFA E USUARIO ====================
+    // ==================== DELETAR CADASTRO ====================
     public void deletarCadastroDefinitivo(String email) {
         Long usuarioId = usuarioClient.buscarIdPorEmail(email);
         agendadorClient.deletarTarefasPorUsuarioId(usuarioId);
@@ -35,23 +37,27 @@ public class PerfilService {
     }
 
     // ==================== ATUALIZAR NOME ====================
-    public void atualizarNome(String email, String novoNome) {
-        usuarioClient.atualizarNome(email, novoNome);
+    public void atualizarNome(String email, FrontBffSetnameRequestDTO frontRequest) {
+        BffUsuarioSetnameRequestDTO requestIntegracao = perfilConverter.toSetnameIntegration(frontRequest);
+        usuarioClient.atualizarNome(email, requestIntegracao);
     }
 
     // ==================== ATUALIZAR SENHA ====================
-    public void atualizarSenha(String email, FrontBffSetpassRequestDTO request) {
-        usuarioClient.atualizarSenha(email, request);
+    public void atualizarSenha(String email, FrontBffSetpassRequestDTO frontRequest) {
+        BffUsuarioSetpassRequestDTO requestIntegracao = perfilConverter.toSetpassIntegration(frontRequest);
+        usuarioClient.atualizarSenha(email, requestIntegracao);
     }
 
     // ==================== ATUALIZAR ENDEREÇO ====================
-    public void atualizarEndereco(String email, Long enderecoId, FrontBffEnderecoupdateRequestDTO request) {
-        usuarioClient.atualizarEndereco(email, enderecoId, request);
+    public void atualizarEndereco(String email, Long enderecoId, FrontBffEnderecoupdateRequestDTO frontRequest) {
+        BffUsuarioEnderecoUpdateRequestDTO requestIntegracao = perfilConverter.toEnderecoIntegration(frontRequest);
+        usuarioClient.atualizarEndereco(email, enderecoId, requestIntegracao);
     }
 
     // ==================== ATUALIZAR TELEFONE ====================
-    public void atualizarTelefone(String email, Long telefoneId, FrontBffTelefoneupdateRequestDTO request) {
-        usuarioClient.atualizarTelefone(email, telefoneId, request);
+    public void atualizarTelefone(String email, Long telefoneId, FrontBffTelefoneupdateRequestDTO frontRequest) {
+        BffUsuarioTelefoneUpdateRequestDTO requestIntegracao = perfilConverter.toTelefoneIntegration(frontRequest);
+        usuarioClient.atualizarTelefone(email, telefoneId, requestIntegracao);
     }
 
     // ==================== DELETAR ENDEREÇO ====================
@@ -60,7 +66,7 @@ public class PerfilService {
     }
 
     // ==================== DELETAR TELEFONE ====================
-    public void deletarTelefoneDefinitivo (String email, Long telefoneId) {
+    public void deletarTelefoneDefinitivo(String email, Long telefoneId) {
         usuarioClient.deletarTelefoneDefinitivo(email, telefoneId);
     }
 
@@ -85,7 +91,4 @@ public class PerfilService {
 
         return usuarioClient.adicionarTelefone(email, request);
     }
-
-    }
-
-
+}
