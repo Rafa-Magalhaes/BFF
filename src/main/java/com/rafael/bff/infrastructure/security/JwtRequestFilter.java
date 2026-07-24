@@ -6,12 +6,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.util.Collections;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -35,15 +39,26 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(username, token, null); // ← guarda o token como credentials
+                    if (jwtUtil.validateToken(token, username)) {
 
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                        // Cria um objeto Jwt completo compatível com o Spring Security OAuth2 Resource Server
+                        Jwt jwt = new Jwt(
+                                token,
+                                Instant.now(),
+                                Instant.now().plusSeconds(3600),
+                                Map.of("alg", "HS512"),
+                                Map.of("sub", username)
+                        );
 
-                    log.info(">>> [BFF] Autenticação definida com sucesso para: {}", username);
+                        // Injeta o JwtAuthenticationToken que o TarefaController espera
+                        JwtAuthenticationToken authentication = new JwtAuthenticationToken(jwt, Collections.emptyList());
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                        log.info(">>> [BFF Filter] JwtAuthenticationToken injetado com sucesso para: {}", username);
+                    }
                 }
             } catch (Exception e) {
-                log.error(">>> [BFF] Erro ao processar token JWT: {}", e.getMessage());
+                log.error(">>> [BFF Filter] Erro ao processar token OAuth2: {}", e.getMessage());
             }
         }
 

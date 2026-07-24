@@ -26,11 +26,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Libera apenas Swagger e Atuadores
                         .requestMatchers("/actuator/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        // Libera EXCLUSIVAMENTE a rota de Login para o frontend
                         .requestMatchers("/auth/login").permitAll()
-                        // Qualquer outra rota (incluindo /tarefas e /internal) EXIGE autenticação
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
