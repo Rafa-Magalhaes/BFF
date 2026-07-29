@@ -6,10 +6,12 @@ import com.rafael.bff.infrastructure.clientDTO.AgendadorBffMailResponseDTO;
 import com.rafael.bff.infrastructure.clientDTO.BffAgendadorStatusUpdateDTO;
 import com.rafael.bff.infrastructure.config.ServiceTokenFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @FeignClient(
         name = "agendador-service",
         url = "${agendador.service.url:http://localhost:8081}",

@@ -72,22 +72,24 @@ public class PerfilService {
 
     // ==================== ADICIONAR ENDEREÇO ====================
     public EnderecoDTO adicionarEndereco(String email, FrontBffAddenderecoRequestDTO frontRequest) {
-        BffUsuarioAddenderecoRequestDTO request = new BffUsuarioAddenderecoRequestDTO();
-        request.setRua(frontRequest.getRua());
-        request.setNumero(frontRequest.getNumero());
-        request.setCep(frontRequest.getCep());
-        request.setBairro(frontRequest.getBairro());
-        request.setCidade(frontRequest.getCidade());
-        request.setEstado(frontRequest.getEstado());
+        BffUsuarioAddenderecoRequestDTO request = BffUsuarioAddenderecoRequestDTO.builder()
+                .rua(frontRequest.getRua())
+                .numero(frontRequest.getNumero())
+                .cep(frontRequest.getCep())
+                .bairro(frontRequest.getBairro())
+                .cidade(frontRequest.getCidade())
+                .estado(frontRequest.getEstado())
+                .build();
 
         return usuarioClient.adicionarEndereco(email, request);
     }
 
     // ==================== ADICIONAR TELEFONE ====================
     public TelefoneDTO adicionarTelefone(String email, FrontBffAddtelefoneRequestDTO frontRequest) {
-        BffUsuarioAddtelefoneRequestDTO request = new BffUsuarioAddtelefoneRequestDTO();
-        request.setDdd(frontRequest.getDdd());
-        request.setNumero(frontRequest.getNumero());
+        BffUsuarioAddtelefoneRequestDTO request = BffUsuarioAddtelefoneRequestDTO.builder()
+                .ddd(frontRequest.getDdd())
+                .numero(frontRequest.getNumero())
+                .build();
 
         return usuarioClient.adicionarTelefone(email, request);
     }

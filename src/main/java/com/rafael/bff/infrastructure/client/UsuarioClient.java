@@ -9,14 +9,10 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @FeignClient(
         name = "usuario-service",
-        url = "${usuario.service.url:http://localhost:8080}",
+        url = "${usuario.service.url:http://localhost:8084}",
         configuration = ServiceTokenFeignConfig.class
 )
 public interface UsuarioClient {
-
-    // ====================== BUSCAR USUARIO P/ CRIACAO AGENDAMENTO  ======================
-    @GetMapping("/usuarios/{email}")
-    UsuarioBffAgendamentoResponseDTO buscarUserPorEmail(@RequestParam("email") String email);
 
     // ====================== BUSCAR P/ DELETAR AGENDAMENTO  ======================
     @GetMapping("/usuarios/internal/id/{email}")
