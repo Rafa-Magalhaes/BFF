@@ -1,3 +1,26 @@
+server:
+  port: 8082
+
 spring:
   application:
     name: bff
+
+usuario:
+  service:
+    url: http://localhost:8084
+
+notificacao:
+  service:
+    url: http://localhost:8083
+
+agendador:
+  service:
+    url: http://localhost:8081
+
+springdoc:
+  show-actuator: true
+
+jwt:
+  secret: ${APP_JWT_SECRET:chave-super-secreta-minima-32-caracteres-para-HS512-2026}
+  expiration-ms: 3600000
+  service-expiration-ms: 1800000
