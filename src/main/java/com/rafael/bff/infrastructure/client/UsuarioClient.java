@@ -73,7 +73,7 @@ public interface UsuarioClient {
             @RequestBody BffUsuarioAddtelefoneRequestDTO request);
 
     // ==================== LOGIN M2M ====================
-    @PostMapping("/usuarios/login")
+    @PostMapping("/usuarios/internal/login")
     UsuarioBffLoginResponseDTO fazerLogin(@RequestBody BffUsuarioLoginRequestDTO request);
 
     // ==================== BUSCAR USUARIO POR ID ====================
