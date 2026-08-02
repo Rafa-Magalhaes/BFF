@@ -35,8 +35,10 @@ public class AuthController {
     })
     public ResponseEntity<BffFrontLoginResponseDTO> login(@Valid @RequestBody FrontBffLoginRequestDTO request) {
 
+        String emailTratado = request.getEmail() != null ? request.getEmail().trim().toLowerCase() : "";
+
         BffUsuarioLoginRequestDTO loginInterno = BffUsuarioLoginRequestDTO.builder()
-                .email(request.getEmail())
+                .email(emailTratado)
                 .senha(request.getSenha())
                 .build();
 
